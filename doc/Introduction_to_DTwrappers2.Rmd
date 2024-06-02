@@ -1,0 +1,325 @@
+---
+title: "Introduction to DTwrappers2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction_to_DTwrappers2}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  tidy = TRUE
+)
+```
+
+
+```{r, include=FALSE}
+devtools::load_all(".")
+```
+
+## Introduction
+
+DTwrappers2 builds a set of summarization and cleaning methods that can be applied to one or more variables within a data.frame object.  This package builds upon earlier work in the DTwrappers package, which provides a back-end for simultaneous calculations on many variables.  The package can provide efficient computations relying upon the data.table package, along with providing translations of the code into data.table's syntax.
+
+The methods of DTwrappers2 generally fall into a number of categories, including:
+
+1) Cleaning Accidental Text
+2) Contingent Calculations
+3) Counting Missing Data
+4) Flexible Summarizations
+
+All of these methods are amenable to scaled calculations that a) can be simultaneously applied to many variables, b) incorporate filters of the data, and c) allow for grouped calculations.
+
+We will utilize the iris data available within R to provide examples of calculations with DTwrappers2.
+
+```{r setup}
+library(DTwrappers2)
+library(DTwrappers)
+library(data.table)
+data(iris)
+```
+
+
+
+The methods of DTwrappers2 are developed in pairs.  Typically a function will be introduced to work on a single variable.  Then a corresponding calculation for multiple variables in a data.frame will be introduced by appending the prefix dt.
+
+## Cleaning Accidental Text
+
+Numeric variables require that each entry is specified numerically.  Typos that introduce text in even a single value will convert the entire vector into a character format.  With this in mind, we introduce methods to identify and remove the culprits of accidental character coercion.
+
+As an example, we will create a new variable in the iris data that is intended to be numeric but includes some accidental text.
+
+```{r }
+RNGversion(vstr = 3.6)
+set.seed(47)
+iris$noise <- rnorm(n = nrow(iris))
+iris$noise[c(1,51)] <- c("0.13ABC", "N/A")
+is.character(iris$noise)
+```
+
+### Methods: character.coercion.culprits and dt.character.coercion.culprits
+
+We can examine the noise variable to determine if it is a character variable that might reasonably be reformatted as numeric.  The threshold.for.numeric indicates the minimum proportion of entries that would properly convert to a numeric value if the variable x were shifted into a numeric format.  If this proportion is exceeded, the method returns a vector of the "character coercion culprits", which are the values for which accidental text may have been introduced.
+
+```{r character.coercion.culprits}
+character.coercion.culprits(x = iris$noise, threshold.for.numeric = 0.8)
+```
+
+We can also confirm that numeric variables have no accidental text.
+
+```{r charactercoercion }
+character.coercion.culprits(x = iris$Sepal.Length, threshold.for.numeric = 0.8)
+```
+
+This method can be scaled to multiple variables or the entire data set using dt.character.coercion.culprits.  Across all of the selected variables, a threshold of 0.8 was used as the minimum proportion for a variable that should be converted to numeric format. Using the.variables, one can specify which variables (names of the data.frame) to apply the calculation to.  The default value of "." specifies all of the variables in the data.frame
+
+
+```{r }
+dt.character.coercion.culprits(dt.name = "iris", threshold.for.numeric = 0.8, the.variables = ".")
+```
+
+Setting return.as = "code" can show a translation into the syntax of the data.table package.
+
+```{r }
+dt.character.coercion.culprits(dt.name = "iris", threshold.for.numeric = 0.8, the.variables = ".", return.as = "code")
+```
+
+Then we can verify that this coding statement would generate the same coding output.  Note that we would have to convert the iris data into data.table format to run this code directly.
+
+```{r }
+library(data.table)
+iris <- as.data.table(iris)
+
+iris[, .(variable = c('Sepal.Length', 'Sepal.Width', 'Petal.Length', 'Petal.Width', 'Species', 'noise'), character.coercion.culprits = lapply(X = .SD, FUN = 'character.coercion.culprits', threshold.for.numeric = 0.8))]
+```
+
+Setting return.as = "all" will create a list object that includes the result as well as the code:
+
+```{r }
+dt.character.coercion.culprits(dt.name = "iris", threshold.for.numeric = 0.8, the.variables = ".", return.as = "all")
+```
+
+
+The character coercion culprits can also be calculated in groups:
+
+```{r }
+dt.character.coercion.culprits(dt.name = "iris", threshold.for.numeric = 0.8, the.variables = c("Petal.Width", "noise"), grouping.variables = "Species")
+```
+
+This will allow us to better identify the specific groupings in which these cases of mistaken text arose.
+
+Likewise, filtering statements may also be used to restrict attention to a subset of the rows of the data:
+
+```{r }
+dt.character.coercion.culprits(dt.name = "iris", threshold.for.numeric = 0.8, the.filter = "Species != 'virginica' & Sepal.Width > 3.3", the.variables = c("Petal.Width", "noise"), grouping.variables = "Species")
+```
+
+Note that 'virginica' is specified within single quotation marks.  Alternatively, the.filter can be entered as an expression value.
+
+```{r }
+dt.character.coercion.culprits(dt.name = "iris", threshold.for.numeric = 0.8, the.filter = expression(Species != "virginica" & Sepal.Width > 3.3), the.variables = c("Petal.Width", "noise"), grouping.variables = "Species")
+```
+
+Filters may also be specified by row index, either numerically or as a character object:
+
+```{r }
+dt.character.coercion.culprits(dt.name = "iris", the.filter = 1:100)
+dt.character.coercion.culprits(dt.name = "iris", the.filter = "1:100")
+```
+
+
+The features of filtering, grouping, and specifying the range of variables will apply broadly to the other methods in the DTwrappers2 package.
+
+### Methods: remove.erroneous.characters and dt.remove.erroneous.characters
+
+The character.coercion.culprits() function was used to identify cases of accidental text.  The remove.erroneous.characters() function both identifies and removes these values.  Non-numeric variables can be converted to numeric form if the proportion of amenable values exceeds the specified threshold.for.numeric.  Cases of accidental text are converted to missing values.
+
+As an example, we will convert the first five entries of the noise variable to numeric form while removing the case of accidental text.
+
+```{r }
+iris$noise[1:5]
+remove.erroneous.characters(x = iris$noise[1:5], threshold.for.numeric = 0.8, variable.should.be = "numeric")
+```
+
+These values have been converted to a numeric form, and the first entry was shifted to a missing value.  The first value could well have been the number 0.13.  If a conversion to a missing value is a concern, then using character.coercion.culprits() to identify the specific cases could aid in data cleaning.
+
+
+The dt.remove.erroneous.characters() function then scales this process to multiple variables.  Here we show an example applied to all of the columns of the iris data with a 0.8 threshold for numeric variables.
+
+```{r }
+dt.remove.erroneous.characters(dt.name = "iris", threshold.for.numeric = 0.8)[1:5,]
+```
+
+
+## Contingent Calculations
+
+Contingent calculations are performed only in specified cases.  For instance, we might decide to calculate the mean value only if the variable is numeric.  When applied to a single variable, this provides a small degree of additional case-checking, with fewer errors or warning messages generated.  However, when scaled to multiple variables in a data.frame, these calculations prevent errors across potentially a large number of non-numeric variables.
+
+### Methods:  mean.numerics and dt.mean.numerics
+
+First, we can demonstrate calculating the mean of numeric and non-numeric variables:
+
+```{r }
+mean.numerics(x = iris$Sepal.Length)
+mean.numerics(x = iris$Species)
+mean.numerics(x = iris$Species, non.numeric.value = "first")
+```
+
+The mean.numerics function is equivalent to the mean when the variable is numeric.  Since the Species is a factor, a missing value is returned without generating warnings or errors.  Likewise, when non.numeric.value is not set to the default of "missing", then the first entry of the variable is returned.
+
+The dt.mean.numerics function applies mean.numerics to multiple variables in a data.frame:
+
+```{r }
+dt.mean.numerics(dt.name = "iris")
+```
+
+This can also be applied in groups and with filters applied:
+
+```{r }
+dt.mean.numerics(dt.name = "iris", the.filter = "Sepal.Length > 4 & Sepal.Length < 6", grouping.variables = "Species")
+```
+
+### Methods:  Other Contingent Calculations
+
+Similar to mean.numerics, the DTwrappers2 package includes contingent calculations for a variety of summary statistics:
+
+```{r }
+median.numerics(x = iris$Sepal.Length)
+dt.median.numerics(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), grouping.variables = "Species")
+
+sd.numerics(x = iris$Sepal.Length)
+dt.sd.numerics(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), grouping.variables = "Species")
+
+var.numerics(x = iris$Sepal.Length)
+dt.var.numerics(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), grouping.variables = "Species")
+
+min.numerics(x = iris$Sepal.Length)
+dt.min.numerics(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), grouping.variables = "Species")
+
+max.numerics(x = iris$Sepal.Length)
+dt.max.numerics(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), grouping.variables = "Species")
+```
+
+## Contingent Rounding and Formatting
+
+Much like the calculation of summary statistics, rounding and formatting numbers can be useful in contingent and scaled settings.
+
+### Methods:  round.numerics and dt.round.numerics
+
+Rounding is intended for numeric variables.  The round.numerics function is a light wrapper of the round function.  It rounds a variable to a specified number of digits if it is numeric; otherwise the variable is returned in its original form.
+
+```{r }
+round.numerics(x = iris$Sepal.Length[1:5], digits = 0)
+round.numerics(x = iris$Species[1:5])
+```
+
+The dt.round.numerics function is used to apply contingent rounding across multiple variables in a data.frame.  Here we will calculate a grouped average using dt.mean.numerics.  Then the numeric values in the resulting table will be rounded to 2 decimal places.
+
+```{r }
+grouped.means <- dt.mean.numerics(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), grouping.variables = "Species")
+dt.round.numerics(dt.name = "grouped.means", digits = 2)
+```
+
+This method is often useful for presenting a table of results that includes character descriptions and numeric measures.
+
+### Methods:  format.numerics and dt.format.numerics
+
+Similarly, format.numerics is a light wrapper of the format function that is only applied to numeric inputs.  We will demonstrate this calculation by changing the units of the sepal length and adding a small degree of variation in the measurements:
+
+
+
+```{r }
+iris$SL.1000 <- iris$Sepal.Length * 1000 + rnorm(n = nrow(iris), mean = 0, sd = 25)
+format.numerics(x = iris$SL.1000[1:5], digits = 2, big.mark = ",")
+```
+
+Then we can update the grouped.means object to include this new variable before formatting:
+
+```{r }
+grouped.means <- dt.mean.numerics(dt.name = "iris", grouping.variables = "Species", na.rm = T)
+
+dt.format.numerics(dt.name = "grouped.means", the.variables = c("Sepal.Length", "SL.1000"), digits = 2, big.mark = ",", grouping.variables = "Species")
+```
+
+
+### Methods:  round.exactly and dt.round.exactly
+
+Traditional rounding provides results up to a specified number of digits.  Rounding 3.96 to 3 decimal places would only result in 2 digits displayed.  The round.exactly function creates character outputs that add lagging zeros.  This ensures that every entry of a variable has the same number of decimal places.  The result is returned as a character vector.
+
+```{r }
+round.exactly(x = iris$Sepal.Length[1:5], digits = 3)
+round.exactly(x = iris$Sepal.Length[1:5], digits = 5)
+
+dt.round.exactly(dt.name = "grouped.means", the.variables = c("Sepal.Length", "Sepal.Width"), digits = 3)
+```
+
+## Counting Missing Data or Measured Data
+
+Assessing the degree of missingness aids in investigating the quality of the data and the need for imputation.  The functions total.missing, total.measured, mean.missing, and mean.measured provide simple ways of summarizing the degree of missingness in a variable:
+
+```{r }
+iris$noise[3 + 50 * (0:2)] <- NA
+
+total.missing(x = iris$noise)
+total.measured(x = iris$noise)
+mean.missing(x = iris$noise)
+mean.measured(x = iris$noise)
+```
+
+These calculations can then be scaled to multiple variables using dt.total.missing, dt.total.measured, dt.mean.missing, and dt.mean.measured:
+
+```{r }
+dt.total.missing(dt.name = "iris")
+dt.total.measured(dt.name = "iris")
+dt.mean.missing(dt.name = "iris")
+dt.mean.measured(dt.name = "iris")
+```
+
+Each of these calculations can then incorporating filtering and grouping steps.
+
+```{r }
+dt.total.missing(dt.name = "iris", grouping.variables = "Species")
+dt.total.measured(dt.name = "iris", the.filter = "Sepal.Length > 4 & Sepal.Length < 6")
+dt.mean.missing(dt.name = "iris", the.filter = "Sepal.Length > 4 & Sepal.Length < 6", grouping.variables = "Species")
+dt.mean.measured(dt.name = "iris", the.variables = c("noise", "Sepal.Width"), the.filter = "Sepal.Length > 4 & Sepal.Length < 6", grouping.variables = "Species", return.as = "all")
+```
+
+## A Multivariable Summarization Function
+
+The summary function from base R calculates 6 summary statistics of numeric variables.  Applied to a single variable, this returns a numeric vector, with the statistics identified using the names of the variable.  This calculation cannot easily be scaled to multiple variables or carried out in grouped calculations.  There is a limited ability to select a subset of these calculations or include others. 
+
+### Method:  dt.summarize
+
+The dt.summarize function is intended to resolve these issues by creating a more flexible means of summarizing multiple numeric variables.  First we will calculate summaries of two variables:
+
+```{r }
+dt.summarize(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"))
+```
+
+Alternative functions may be specified:
+```{r }
+dt.summarize(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), the.functions = c("mean", "sd", "var"))
+```
+
+These calculations may also be filtered and grouped:
+
+```{r }
+dt.summarize(dt.name = "iris", the.variables = c("Sepal.Length", "Sepal.Width"), the.filter = "Sepal.Length > 4 & Sepal.Length < 6", grouping.variables = "Species")
+```
+
+The choice of functions can also incorporate customized functions or those from other methods.  For instance, here we apply mean.numerics and sd.numerics to a selection of variables including the non-numeric Species:
+
+```{r }
+dt.summarize(dt.name = "iris", the.functions = c("mean.numerics", "sd.numerics"), the.variables = c("Sepal.Length", "Sepal.Width", "Species"))
+```
+
+This offers many considerations for scaled computations on large data sets with many columns.  Quickly identifying the numeric variables and calculating customized measures can reduce the labor of investigating novel data.  The resulting table can easily be searched for specific subgroups or measured values.
+
+## Discussion
+
+DTwrappers2 presents a variety of methods for cleaning and summarizing data across multiple variables.  Individually, these calculations resolve small inconveniences with analyzing data in a variety of settings.  Collectively, they allow for a set of tools that can better facilitate exploration, analysis, and reporting of data.  Incorporating built-in filters and groupings expands upon the settings in which these tools might be valuable.
+
+The back-end calculations of DTwrappers2 are performed using a translation to data.table's syntax.  This enables efficient computation with expected performance improvements over other methods.  Users who want to practice with data.table can also study the coding outputs as working examples.  The methods presented here rely upon a call to the lapply function within data.table's j step while specifying the variables to perform the calculation in the .SDcols parameter.  Filtered and grouped calculations also create additional elements of the syntax to study.  With this in mind, motivated users can create additional methods that can be applied in these frameworks, either using data.table directory or with the dt.calculate method from the DTwrappers package.
