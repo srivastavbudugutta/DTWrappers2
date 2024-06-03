@@ -34,8 +34,16 @@
 dt.character.coercion.culprits <- function(dt.name, threshold.for.numeric = 0.5, the.variables = ".", the.filter = NULL, grouping.variables = NULL, grouping.type = "keyby", add.function.name = FALSE, ...){
   ##require(DTwrappers)
   other.params <- sprintf("threshold.for.numeric = %s", threshold.for.numeric)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables, the.functions = "character.coercion.culprits", the.filter = the.filter, grouping.variables = grouping.variables, grouping.type = grouping.type, add.function.name = add.function.name, other.params = other.params, ...))
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
+
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables, the.functions = "character.coercion.culprits", the.filter = the.filter, grouping.variables = grouping.variables, grouping.type = grouping.type, add.function.name = add.function.name, other.params = other.params, ...))
 }
 
 
@@ -90,8 +98,12 @@ dt.character.coercion.culprits <- function(dt.name, threshold.for.numeric = 0.5,
 dt.format.numerics <- function(dt.name, digits, the.variables = ".", the.filter = NULL, grouping.variables = NULL, add.function.name = FALSE, return.as = "result", big.mark = "", big.interval = 3L, small.mark  = "", small.interval = 5L, decimal.mark = getOption("OutDec"), input.d.mark = decimal.mark, preserve.width = c("common", "individual", "none"), envir = parent.frame(), ...){
 
   other.params <- sprintf("digits = %d, big.mark = '%s', big.interval = %s, small.mark  = '%s', small.interval = '%s', decimal.mark = '%s', input.d.mark = '%s', preserve.width = c(%s)", digits, big.mark, big.interval, small.mark, small.interval, decimal.mark, input.d.mark, paste(sprintf("'%s'", preserve.width), collapse = ","))
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.functions = "format.numerics", the.variables = the.variables, the.filter = the.filter, grouping.variables = grouping.variables, sortby.group = TRUE, other.params = other.params, table.format = "wide", add.function.name = FALSE, individual.variables = TRUE, return.as = return.as, envir = envir))
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.functions = "format.numerics", the.variables = the.variables, the.filter = the.filter, grouping.variables = grouping.variables, sortby.group = TRUE, other.params = other.params, table.format = "wide", add.function.name = FALSE, individual.variables = TRUE, return.as = return.as, envir = envir))
 
 }
 
@@ -139,8 +151,12 @@ dt.max.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
                             na.rm = TRUE, non.numeric.value = "missing", ...){
 
   other.params <- sprintf("na.rm = %s, non.numeric.value = '%s'", na.rm, non.numeric.value)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "max.numerics", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
@@ -184,8 +200,12 @@ dt.mean.measured <- function(dt.name, the.variables = ".", the.filter = NULL,
                              grouping.variables = NULL, sortby.group = TRUE,
                              table.format = "wide", add.function.name = FALSE,
                              return.as = "result", envir = parent.frame(), ...){
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "mean.measured", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       table.format = table.format, add.function.name = add.function.name,
@@ -230,8 +250,12 @@ dt.mean.missing <- function(dt.name, the.variables = ".", the.filter = NULL,
                             grouping.variables = NULL, sortby.group = TRUE,
                             table.format = "wide", add.function.name = FALSE,
                             return.as = "result", envir = parent.frame(), ...){
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "mean.missing", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       table.format = table.format, add.function.name = add.function.name,
@@ -285,8 +309,12 @@ dt.mean.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
                              na.rm = TRUE, non.numeric.value = "missing", ...){
 
   other.params <- sprintf("na.rm = %s, non.numeric.value = '%s'", na.rm, non.numeric.value)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "mean.numerics", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
@@ -339,8 +367,12 @@ dt.median.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
                                na.rm = TRUE, non.numeric.value = "missing", ...){
 
   other.params <- sprintf("na.rm = %s, non.numeric.value = '%s'", na.rm, non.numeric.value)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "median.numerics", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
@@ -394,8 +426,12 @@ dt.min.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
                             na.rm = TRUE, non.numeric.value = "missing", ...){
 
   other.params <- sprintf("na.rm = %s, non.numeric.value = '%s'", na.rm, non.numeric.value)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "min.numerics", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
@@ -444,8 +480,12 @@ dt.quantile.numerics <- function(dt.name, the.variables = ".", probs = c(0.25, 0
                                  return.as = "result", envir = parent.frame(), ...){
 
   other.params = sprintf("probs = c(%s)", paste(sort(unique(probs)), collapse = ", "))
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.functions = "quantile.numerics",
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.functions = "quantile.numerics",
                       the.variables = the.variables, the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
@@ -496,8 +536,12 @@ dt.remove.erroneous.characters <- function(dt.name, threshold.for.numeric = 0.8,
   }
   other.params <- sprintf("threshold.for.numeric = %s, variable.should.be = '%s', value.for.missing = %s",
                           threshold.for.numeric, variable.should.be, value.for.missing)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.functions = "remove.erroneous.characters",
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.functions = "remove.erroneous.characters",
                       the.variables = the.variables, the.filter = the.filter,
                       grouping.variables = NULL, sortby.group = TRUE, other.params = other.params,
                       table.format = "wide", add.function.name = FALSE, individual.variables = TRUE,
@@ -539,8 +583,12 @@ dt.round.exactly <- function(dt.name, the.variables = ".", digits = 0,
                              envir = parent.frame(), ...){
 
   other.params <- sprintf("digits = %d, decimal = '%s'", digits, decimal)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.functions = "round.exactly",
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.functions = "round.exactly",
                       the.variables = the.variables, the.filter = the.filter,
                       other.params = other.params, add.function.name = FALSE,
                       table.format = "wide", return.as = return.as, envir = envir))
@@ -587,8 +635,12 @@ dt.round.numerics <- function(dt.name, digits, the.variables = ".", the.filter =
                               envir = parent.frame(), ...){
 
   other.params <- sprintf("digits = %d", floor(digits))
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "round.numerics", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = "wide",
@@ -640,8 +692,12 @@ dt.sd.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
                            na.rm = TRUE, non.numeric.value = "missing", ...){
 
   other.params <- sprintf("na.rm = %s, non.numeric.value = '%s'", na.rm, non.numeric.value)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "sd.numerics", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
@@ -699,8 +755,12 @@ dt.summarize <- function(dt.name,
                          return.as = "result",
                          envir = parent.frame(),
                          ...){
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.functions = the.functions, the.variables = the.variables, the.filter = the.filter, grouping.variables = grouping.variables, sortby.group = sortby.group, other.params = other.params, table.format = table.format, add.function.name = add.function.name, return.as = return.as, envir = envir, ...))
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.functions = the.functions, the.variables = the.variables, the.filter = the.filter, grouping.variables = grouping.variables, sortby.group = sortby.group, other.params = other.params, table.format = table.format, add.function.name = add.function.name, return.as = return.as, envir = envir, ...))
 }
 
 
@@ -745,8 +805,12 @@ dt.total.measured <- function(dt.name, the.variables = ".", the.filter = NULL,
                               grouping.variables = NULL, sortby.group = TRUE,
                               table.format = "wide", add.function.name = FALSE,
                               return.as = "result", envir = parent.frame(), ...){
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "total.measured", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       table.format = table.format, add.function.name = add.function.name,
@@ -793,8 +857,12 @@ dt.total.missing <- function(dt.name, the.variables = ".", the.filter = NULL,
                              grouping.variables = NULL, sortby.group = TRUE,
                              table.format = "wide", add.function.name = FALSE,
                              return.as = "result", envir = parent.frame(), ...){
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "total.missing", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       table.format = table.format, add.function.name = add.function.name,
@@ -865,8 +933,12 @@ dt.trimws.character <- function(dt.name, the.variables = ".", the.filter = NULL,
   }
 
   other.params <- paste(value.which, value.whitespace, value.convert.factor, collapse = ", ")
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "trimws.character", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
@@ -920,8 +992,12 @@ dt.var.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
                             na.rm = TRUE, non.numeric.value = "missing", ...){
 
   other.params <- sprintf("na.rm = %s, non.numeric.value = '%s'", na.rm, non.numeric.value)
+  if (!requireNamespace("DTwrappers", quietly = TRUE)) {
+    stop("DTwrappers package is required but not installed.")
+  }
 
-  return(dt.calculate(dt.name = dt.name, the.variables = the.variables,
+
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.variables = the.variables,
                       the.functions = "var.numerics", the.filter = the.filter,
                       grouping.variables = grouping.variables, sortby.group = sortby.group,
                       other.params = other.params, table.format = table.format,
