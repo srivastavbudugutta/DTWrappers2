@@ -1333,6 +1333,8 @@ var.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 #' x <- c("1", "2", "three", "4", "five")
 #' character.coercion.culprits(x, threshold.for.numeric = 0.2)
 #' @export
+
+
 character.coercion.culprits <- function(x, threshold.for.numeric = 0.5, ...) {
   w1 <- which(is.na(x))
 
