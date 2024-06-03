@@ -1326,12 +1326,9 @@ var.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 #' This function identifies which character values in a vector are preventing it from being converted to a numeric vector.
 #'
 #' @param x A character vector of values that should be a numeric vector but was coerced to a character due to a small number of non-numeric entries.
-#' @param threshold.for.numeric A value between 0 and 1 specifying the maximum proportion of x that does not "look" numeric. If `threshold.for.numeric = 0.1`, then no more than 10% of the values in x can be values that do not "look" numeric.
+#' @param threshold.for.numeric A value between 0 and 1 specifying the maximum proportion of x that does not "look" numeric. If 'threshold.for.numeric = 0.1', then no more than 10% of the values in x can be values that do not "look" numeric.
 #' @param ... Additional arguments (currently not used).
-#' @return A character vector of values that are preventing `x` from being converted to numeric. Returns `NA` if the proportion of non-numeric values exceeds the threshold.
-#' @examples
-#' x <- c("1", "2", "three", "4", "five")
-#' character.coercion.culprits(x, threshold.for.numeric = 0.2)
+#' @return A character vector of values that are preventing 'x' from being converted to numeric. Returns 'NA` if the proportion of non-numeric values exceeds the threshold.
 #' @export
 
 
