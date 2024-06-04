@@ -1174,9 +1174,17 @@ quantile.numerics <- function(x, probs, na.rm = TRUE){
 }
 
 
-# x:  a character vector of values that should be a numeric vector but was coerced to a character due to a small number of entries.
-
-# threshold.for.numeric:  a value between 0 and 1 specifying the maximum proportion of x that does not "look" numeric, e.g. "2.154" is a character value that can be converted to a numeric value.. If threshold.for.numeric = 0.1, then no more than 10% of the values in x can be values that do not "look" numeric.
+#' remove.erroneous.characters
+#'
+#' This function attempts to convert a character vector to a numeric or complex vector, replacing erroneous values based on a specified threshold.
+#'
+#' @param x A character vector of values that should be a numeric vector but was coerced to a character due to a small number of entries.
+#' @param threshold.for.numeric A value between 0 and 1 specifying the maximum proportion of x that does not "look" numeric. If threshold.for.numeric = 0.1, then no more than 10 percentage of the values in x can be values that do not "look" numeric.
+#' @param variable.should.be A character string specifying the target variable type ("numeric" or "complex"). Defaults to "numeric".
+#' @param value.for.missing The value to replace missing or erroneous entries with. Defaults to NA_real_ for numeric and NA_complex_ for complex.
+#' @param ... Additional arguments (currently not used).
+#' @return A numeric or complex vector with erroneous entries replaced, or the original character vector if the proportion of erroneous values exceeds the threshold.
+#' @export
 
 remove.erroneous.characters <- function(x, threshold.for.numeric = 0.8, variable.should.be = "numeric", value.for.missing = NULL, ...){
   w <- is.na(x)
