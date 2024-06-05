@@ -14,7 +14,7 @@ RoxygenNote: 7.2.3
 Suggests: knitr, rmarkdown, covr, devtools, markdown, testthat (>=
         2.1.0)
 VignetteBuilder: knitr
-Imports: data.table, DTwrappers
+Imports: data.table, DTwrappers, stats
 NeedsCompilation: no
 Packaged: 2024-03-22 20:12:05 UTC; Many Bugs
 Author: David Shilane [aut],
