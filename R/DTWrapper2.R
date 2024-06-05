@@ -1035,9 +1035,24 @@ character.coercion.culprits <- function(x, threshold.for.numeric = 0.5, ...) {
 }
 
 
-# digits:  the number of digits to round to
-
-# All other inputs:  see help(prettyNum)
+#' This function formats numeric values with specified rounding and marking options.
+#'
+#' @param x A numeric, integer, or logical vector to be formatted.
+#' @param digits The number of digits to round to. Defaults to 0.
+#' @param big.mark A character string used as a mark for thousands. Defaults to "".
+#' @param big.interval An integer specifying the interval for the big mark. Defaults to 3.
+#' @param small.mark A character string used as a mark for small intervals. Defaults to "".
+#' @param small.interval An integer specifying the interval for the small mark. Defaults to 5.
+#' @param decimal.mark A character string used as a decimal mark. Defaults to the value of getOption("OutDec").
+#' @param input.d.mark The decimal mark to be used for input. Defaults to the value of \code{decimal.mark}.
+#' @param preserve.width A character string specifying how to preserve the width of the output. Can be "common", "individual", or "none". Defaults to "common".
+#' @param zero.print A character string to be used for printing zero. Defaults to NULL.
+#' @param replace.zero A logical value indicating whether to replace zeros with the \code{zero.print} value. Defaults to FALSE.
+#' @param drop0trailing A logical value indicating whether to drop trailing zeros. Defaults to FALSE.
+#' @param is.cmplx A logical value indicating whether the input is complex. Defaults to NA.
+#' @param ... Additional arguments passed to prettyNum.
+#' @return A character vector with formatted numeric values.
+#' @export
 
 format.numerics <- function(x, digits = 0, big.mark = "",   big.interval = 3L, small.mark  = "", small.interval = 5L, decimal.mark = getOption("OutDec"), input.d.mark = decimal.mark, preserve.width = c("common", "individual", "none"), zero.print = NULL, replace.zero = FALSE, drop0trailing = FALSE, is.cmplx = NA, ...){
   if(is.numeric(x) | is.integer(x) | is.logical(x)){
@@ -1071,13 +1086,16 @@ lower.quartile <- function(x, na.rm = TRUE, ...){
 }
 
 
-# x:  a vector.
-
-# na.rm:  a logical value specifying whether missing values should be removed from the calculations specified by the.functions.
-
-# non.numeric.value:  if "missing", returns NA for variables that are not numeric, integer, logical, or complex.  Otherwise returns first entry of the vector.
-
-# If x is numeric, integer, logical, or complex, then its maximal value will be computed.  Otherwise, the first value of x will be returned untouched.
+#' max.numerics
+#'
+#' This function computes the maximal value of a numeric, integer, logical, or complex vector. If the vector is not one of these types, the function returns either NA or the first entry of the vector.
+#'
+#' @param x A vector.
+#' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
+#' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
+#' @param ... Additional arguments (currently not used).
+#' @return If x is numeric, integer, logical, or complex, the maximal value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export
 
 max.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
   if(is.numeric(x) | is.complex(x)){
@@ -1090,27 +1108,44 @@ max.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 }
 
 
-# x:  a vector
+#' mean.measured
+#'
+#' This function calculates the proportion of non-NA values in a vector.
+#'
+#' @param x A vector.
+#' @param ... Additional arguments.
+#' @return A numeric value representing the proportion of non-NA values in the vector x.
+#' @export
 
 mean.measured <- function(x, ...){
   return(mean(!is.na(x)))
 }
 
 
-# x:  a vector
+#' Calculate the Proportion of NA Values
+#'
+#' This function calculates the proportion of NA values in a vector.
+#'
+#' @param x A vector.
+#' @param ... Additional arguments.
+#' @return A numeric value representing the proportion of NA values in the vector x.
+#' @export
 
 mean.missing <- function(x, ...){
   return(mean(is.na(x)))
 }
 
 
-# x:  a vector.
-
-# na.rm:  a logical value specifying whether missing values should be removed from the calculations specified by the.functions.
-
-# non.numeric.value:  if "missing", returns NA for variables that are not numeric, integer, logical, or complex.  Otherwise returns first entry of the vector.
-
-# If x is numeric, integer, logical, or complex, then its mean value will be computed.  Otherwise, the first value of x will be returned untouched.
+#' mean.numerics
+#'
+#' This function computes the mean value of a numeric, integer, logical, or complex vector. If the vector is not one of these types, the function returns either NA or the first entry of the vector.
+#'
+#' @param x A vector.
+#' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
+#' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
+#' @param ... Additional arguments (currently not used).
+#' @return If x is numeric, integer, logical, or complex, the mean value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export
 
 mean.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
   if(is.numeric(x) | is.complex(x)){
@@ -1123,13 +1158,16 @@ mean.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 }
 
 
-# x:  a vector.
-
-# na.rm:  a logical value specifying whether missing values should be removed from the calculations specified by the.functions.
-
-# non.numeric.value:  if "missing", returns NA for variables that are not numeric, integer, logical, or complex.  Otherwise returns first entry of the vector.
-
-# If x is numeric, integer, logical, or complex, then its median value will be computed.  Otherwise, the first value of x will be returned untouched.
+#' median.numerics
+#'
+#' This function computes the median value of a numeric, integer, logical, or complex vector. If the vector is not one of these types, the function returns either NA or the first entry of the vector.
+#'
+#' @param x A vector.
+#' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
+#' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
+#' @param ... Additional arguments (currently not used).
+#' @return If x is numeric, integer, logical, or complex, the median value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export
 
 median.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
   if(is.numeric(x) | is.complex(x)){
@@ -1142,13 +1180,16 @@ median.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...)
 }
 
 
-# x:  a vector.
-
-# na.rm:  a logical value specifying whether missing values should be removed from the calculations specified by the.functions.
-
-# non.numeric.value:  if "missing", returns NA for variables that are not numeric, integer, logical, or complex.  Otherwise returns first entry of the vector.
-
-# If x is numeric, integer, logical, or complex, then its minimal value will be computed.  Otherwise, the first value of x will be returned untouched.
+#' min.numerics
+#'
+#' This function computes the minimal value of a numeric, integer, logical, or complex vector. If the vector is not one of these types, the function returns either NA or the first entry of the vector.
+#'
+#' @param x A vector.
+#' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
+#' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
+#' @param ... Additional arguments (currently not used).
+#' @return If x is numeric, integer, logical, or complex, the minimal value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export
 
 min.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
   if(is.numeric(x) | is.complex(x)){
@@ -1215,7 +1256,14 @@ remove.erroneous.characters <- function(x, threshold.for.numeric = 0.8, variable
 }
 
 
-## Internal Function
+#' round.exactly.one.value
+#'
+#' This internal function rounds exactly one value to the specified number of digits.
+#'
+#' @param x A character vector where the first element is the integer part and the second element is the decimal part.
+#' @param digits The number of digits to round to.
+#' @return A character string representing the rounded value.
+#' @export
 
 round.exactly.one.value <- function(x, digits){
 
@@ -1265,12 +1313,15 @@ round.exactly <- function(x, digits = 0, decimal = ".", ...){
 }
 
 
-
-# x:  a vector.
-
-# digits:  the number of digits to round to.
-
-# If x is numeric, or complex, then it will be rounded to the specified number of digits.  Otherwise, the values of x will be returned untouched.
+#' round.numerics
+#'
+#' This function rounds numeric or complex values to the specified number of digits. If the input is not numeric or complex, the values are returned untouched.
+#'
+#' @param x A vector.
+#' @param digits The number of digits to round to. Defaults to 0.
+#' @param ... Additional arguments.
+#' @return If x is numeric or complex, the values will be rounded to the specified number of digits. Otherwise, the values of x will be returned untouched.
+#' @export
 
 round.numerics <- function(x, digits = 0, ...){
   if(is.numeric(digits) == FALSE){
@@ -1283,13 +1334,16 @@ round.numerics <- function(x, digits = 0, ...){
 }
 
 
-# x:  a vector.
-
-# na.rm:  a logical value specifying whether missing values should be removed from the calculations specified by the.functions.
-
-# non.numeric.value:  if "missing", returns NA for variables that are not numeric, integer, logical, or complex.  Otherwise returns first entry of the vector.
-
-# If x is numeric, integer, logical, or complex, then its standard deviation will be computed.  Otherwise, the first value of x will be returned untouched.
+#' sd.numerics
+#'
+#' This function computes the standard deviation of a numeric, integer, logical, or complex vector. If the vector is not one of these types, the function returns either NA or the first entry of the vector.
+#'
+#' @param x A vector.
+#' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
+#' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
+#' @param ... Additional arguments.
+#' @return If x is numeric, integer, logical, or complex, the standard deviation will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export
 
 sd.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
   if(is.numeric(x) | is.complex(x)){
@@ -1302,14 +1356,28 @@ sd.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 }
 
 
-# x:  a vector
+#' total.measured
+#'
+#' This function calculates the total number of non-NA values in a vector.
+#'
+#' @param x A vector.
+#' @param ... Additional arguments.
+#' @return An integer representing the total number of non-NA values in the vector x.
+#' @export
 
 total.measured <- sum.measured <- function(x, ...){
   return(sum(!is.na(x)))
 }
 
 
-# x:  a vector
+#' total.missing
+#'
+#' This function calculates the total number of NA values in a vector.
+#'
+#' @param x A vector.
+#' @param ... Additional arguments.
+#' @return An integer representing the total number of NA values in the vector x.
+#' @export
 
 total.missing <- sum.missing <- function(x, ...){
   return(sum(is.na(x)))
@@ -1339,13 +1407,16 @@ upper.quartile <- function(x, na.rm = TRUE, ...){
 
 
 
-# x:  a vector.
-
-# na.rm:  a logical value specifying whether missing values should be removed from the calculations specified by the.functions.
-
-# non.numeric.value:  if "missing", returns NA for variables that are not numeric, integer, logical, or complex.  Otherwise returns first entry of the vector.
-
-# If x is numeric, integer, logical, or complex, then its variance will be computed.  Otherwise, the first value of x will be returned untouched.
+#' var.numerics
+#'
+#' This function computes the variance of a numeric, integer, logical, or complex vector. If the vector is not one of these types, the function returns either NA or the first entry of the vector.
+#'
+#' @param x A vector.
+#' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
+#' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
+#' @param ... Additional arguments.
+#' @return If x is numeric, integer, logical, or complex, the variance will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export
 
 var.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
   if(is.numeric(x) | is.integer(x) | is.logical(x) | is.complex(x)){
