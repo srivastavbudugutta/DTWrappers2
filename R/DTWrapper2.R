@@ -1338,6 +1338,7 @@ round.exactly <- function(x, digits = 0, decimal = ".", ...){
 #' @param ... Additional arguments.
 #' @return If x is numeric or complex, the values will be rounded to the specified number of digits. Otherwise, the values of x will be returned untouched.
 #' @export
+#' @export round.numerics
 
 round.numerics <- function(x, digits = 0, ...){
   if(is.numeric(digits) == FALSE){
