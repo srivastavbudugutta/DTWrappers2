@@ -1312,6 +1312,7 @@ round.exactly.one.value <- function(x, digits){
 #' @param decimal The character specifying the decimal, which splits between whole numbers and the fractional component. Defaults to ".".
 #' @param ... Additional arguments .
 #' @return A character vector of rounded numeric values with exactly the specified number of decimal places.
+#' @export round.exactly
 #' @export
 
 
