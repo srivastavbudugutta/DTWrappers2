@@ -1169,6 +1169,7 @@ mean.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 #' @param ... Additional arguments (currently not used).
 #' @return If x is numeric, integer, logical, or complex, the median value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
 #' @importFrom stats median
+#' @export median.numerics
 #' @export
 
 median.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
@@ -1192,6 +1193,7 @@ median.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...)
 #' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
 #' @param ... Additional arguments (currently not used).
 #' @return If x is numeric, integer, logical, or complex, the minimal value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export min.numerics
 #' @export
 
 min.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
