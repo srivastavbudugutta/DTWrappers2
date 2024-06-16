@@ -12,7 +12,7 @@
 \item{...}{Additional arguments.}
 }
 \value{
-A numeric value representing the proportion of non-NA values in the vector x.
+A numeric value representing the proportion of non-NA values in the vector.
 }
 \description{
 This function calculates the proportion of non-NA values in a vector.
