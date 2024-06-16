@@ -141,6 +141,7 @@ dt.format.numerics <- function(dt.name, digits, the.variables = ".", the.filter 
 
 #' @export
 
+
 dt.max.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
                             grouping.variables = NULL, sortby.group = TRUE,
                             table.format = "wide", add.function.name = FALSE,
@@ -1091,6 +1092,7 @@ lower.quartile <- function(x, na.rm = TRUE, ...){
 #' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
 #' @param ... Additional arguments (currently not used).
 #' @return If x is numeric, integer, logical, or complex, the maximal value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
+#' @export max.numerics
 #' @export
 
 max.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
@@ -1112,6 +1114,7 @@ max.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 #' @param ... Additional arguments.
 #' @return A numeric value representing the proportion of non-NA values in the vector.
 #' @importFrom stats mean
+#' @export mean.measured
 #' @export
 
 mean.measured <- function(x, ...){
@@ -1127,6 +1130,7 @@ mean.measured <- function(x, ...){
 #' @param ... Additional arguments.
 #' @return A numeric value representing the proportion of NA values in the vector x.
 #' @importFrom stats mean
+#' @export mean.missing
 #' @export
 
 mean.missing <- function(x, ...){
