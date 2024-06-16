@@ -1049,6 +1049,7 @@ character.coercion.culprits <- function(x, threshold.for.numeric = 0.5, ...) {
 #' @param is.cmplx A logical value indicating whether the input is complex. Defaults to NA.
 #' @param ... Additional arguments passed to prettyNum.
 #' @return A character vector with formatted numeric values.
+#' @export format.numerics
 #' @export
 
 format.numerics <- function(x, digits = 0, big.mark = "",   big.interval = 3L, small.mark  = "", small.interval = 5L, decimal.mark = getOption("OutDec"), input.d.mark = decimal.mark, preserve.width = c("common", "individual", "none"), zero.print = NULL, replace.zero = FALSE, drop0trailing = FALSE, is.cmplx = NA, ...){
