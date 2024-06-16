@@ -1091,7 +1091,7 @@ lower.quartile <- function(x, na.rm = TRUE, ...){
 #' @param x A vector.
 #' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
 #' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
-#' @param ... Additional arguments (currently not used).
+#' @param ... Additional arguments .
 #' @return If x is numeric, integer, logical, or complex, the maximal value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
 #' @export max.numerics
 #' @export
@@ -1171,7 +1171,7 @@ mean.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 #' @param x A vector.
 #' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
 #' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
-#' @param ... Additional arguments (currently not used).
+#' @param ... Additional arguments .
 #' @return If x is numeric, integer, logical, or complex, the median value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
 #' @importFrom stats median
 #' @export median.numerics
@@ -1196,7 +1196,7 @@ median.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...)
 #' @param x A vector.
 #' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
 #' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
-#' @param ... Additional arguments (currently not used).
+#' @param ... Additional arguments .
 #' @return If x is numeric, integer, logical, or complex, the minimal value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
 #' @export min.numerics
 #' @export
@@ -1240,7 +1240,7 @@ quantile.numerics <- function(x, probs, na.rm = TRUE){
 #' @param threshold.for.numeric A value between 0 and 1 specifying the maximum proportion of x that does not "look" numeric. If threshold.for.numeric = 0.1, then no more than 10 percentage of the values in x can be values that do not "look" numeric.
 #' @param variable.should.be A character string specifying the target variable type ("numeric" or "complex"). Defaults to "numeric".
 #' @param value.for.missing The value to replace missing or erroneous entries with. Defaults to NA_real_ for numeric and NA_complex_ for complex.
-#' @param ... Additional arguments (currently not used).
+#' @param ... Additional arguments .
 #' @return A numeric or complex vector with erroneous entries replaced, or the original character vector if the proportion of erroneous values exceeds the threshold.
 #' @importFrom stats mean
 #' @export
@@ -1303,11 +1303,16 @@ round.exactly.one.value <- function(x, digits){
   return(this.result)
 }
 
-# x:  a numeric vector
-
-# digits:  the number of digits to round to.  This number will be exact, in that there will be exactly this number of decimal places listed even if this includes lagging zeros.  For instance, setting digits = 5 for x = 2.54 would result in 2.54000
-
-# decimal:  The character specifying the decimal, which splits between whole numbers and the fractional component.
+#' round.exactly
+#'
+#' This function rounds numeric values to a specified number of decimal places. The rounding is exact, meaning there will be exactly the specified number of decimal places even if this includes trailing zeros.
+#'
+#' @param x A numeric vector.
+#' @param digits The number of digits to round to. This number will be exact, meaning there will be exactly this number of decimal places listed even if this includes trailing zeros. For instance, setting digits = 5 for x = 2.54 would result in 2.54000.
+#' @param decimal The character specifying the decimal, which splits between whole numbers and the fractional component. Defaults to ".".
+#' @param ... Additional arguments .
+#' @return A character vector of rounded numeric values with exactly the specified number of decimal places.
+#' @export
 
 
 

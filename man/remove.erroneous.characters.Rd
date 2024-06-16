@@ -21,7 +21,7 @@ remove.erroneous.characters(
 
 \item{value.for.missing}{The value to replace missing or erroneous entries with. Defaults to NA_real_ for numeric and NA_complex_ for complex.}
 
-\item{...}{Additional arguments (currently not used).}
+\item{...}{Additional arguments .}
 }
 \value{
 A numeric or complex vector with erroneous entries replaced, or the original character vector if the proportion of erroneous values exceeds the threshold.
