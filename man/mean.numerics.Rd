@@ -13,7 +13,7 @@
 
 \item{non.numeric.value}{If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".}
 
-\item{...}{Additional arguments (currently not used).}
+\item{...}{Additional arguments.}
 }
 \value{
 If x is numeric, integer, logical, or complex, the mean value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.

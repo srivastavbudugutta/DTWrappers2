@@ -1011,6 +1011,7 @@ dt.var.numerics <- function(dt.name, the.variables = ".", the.filter = NULL,
 #' @param threshold.for.numeric A value between 0 and 1 specifying the maximum proportion of x that does not "look" numeric. If threshold.for.numeric = 0.1, then no more than 10 percentage of the values in x can be values that do not "look" numeric.
 #' @param ... Additional arguments.
 #' @return A character vector of values that are preventing x from being converted to numeric. Returns NA if the proportion of non-numeric values exceeds the threshold.
+#' @importFrom stats mean
 #' @export
 
 character.coercion.culprits <- function(x, threshold.for.numeric = 0.5, ...) {
@@ -1110,6 +1111,7 @@ max.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
 #' @param x A vector.
 #' @param ... Additional arguments.
 #' @return A numeric value representing the proportion of non-NA values in the vector.
+#' @importFrom stats mean
 #' @export
 
 mean.measured <- function(x, ...){
@@ -1124,6 +1126,7 @@ mean.measured <- function(x, ...){
 #' @param x A vector.
 #' @param ... Additional arguments.
 #' @return A numeric value representing the proportion of NA values in the vector x.
+#' @importFrom stats mean
 #' @export
 
 mean.missing <- function(x, ...){
@@ -1138,7 +1141,7 @@ mean.missing <- function(x, ...){
 #' @param x A vector.
 #' @param na.rm A logical value specifying whether missing values should be removed from the calculations specified by the function. Defaults to TRUE.
 #' @param non.numeric.value If "missing", returns NA for variables that are not numeric, integer, logical, or complex. Otherwise, returns the first entry of the vector. Defaults to "missing".
-#' @param ... Additional arguments (currently not used).
+#' @param ... Additional arguments.
 #' @return If x is numeric, integer, logical, or complex, the mean value will be computed. Otherwise, the first value of x will be returned untouched or NA based on non.numeric.value.
 #' @export
 
@@ -1200,6 +1203,13 @@ min.numerics <- function(x, na.rm = TRUE, non.numeric.value = "missing", ...){
   return(x[1])
 }
 
+#' This internal function calculates the quantiles for a numeric or complex vector. If the input vector is not numeric or complex, it returns a vector of NA of the same length as the provided probabilities.
+#'
+#' @param x A vector to calculate quantiles for.
+#' @param probs A numeric vector of probabilities with values in [0,1].
+#' @param na.rm A logical value indicating whether NA values should be stripped before the computation proceeds. Defaults toTRUE.
+#' @return A vector of quantiles corresponding to the specified probabilities if x is numeric or complex. If x is not numeric or complex, returns a vector of NA.
+#' @keywords internal
 
 quantile.numerics <- function(x, probs, na.rm = TRUE){
   will.calculate.quantiles <- is.numeric(x) | is.complex(x)
@@ -1224,6 +1234,7 @@ quantile.numerics <- function(x, probs, na.rm = TRUE){
 #' @param value.for.missing The value to replace missing or erroneous entries with. Defaults to NA_real_ for numeric and NA_complex_ for complex.
 #' @param ... Additional arguments (currently not used).
 #' @return A numeric or complex vector with erroneous entries replaced, or the original character vector if the proportion of erroneous values exceeds the threshold.
+#' @importFrom stats mean
 #' @export
 
 remove.erroneous.characters <- function(x, threshold.for.numeric = 0.8, variable.should.be = "numeric", value.for.missing = NULL, ...){
