@@ -586,7 +586,7 @@ dt.round.exactly <- function(dt.name, the.variables = ".", digits = 0,
   }
 
 
-  return(DTwrappers::dt.calculate(dt.name = dt.name, the.functions = "round.exactly",
+  return(DTwrappers::dt.calculate(dt.name = dt.name, the.functions = "round_exactly",
                       the.variables = the.variables, the.filter = the.filter,
                       other.params = other.params, add.function.name = FALSE,
                       table.format = "wide", return.as = return.as, envir = envir))
@@ -1273,17 +1273,15 @@ remove.erroneous.characters <- function(x, threshold.for.numeric = 0.8, variable
 }
 
 
-#' round.exactly.one.value
-#'
+#' round_exactly_one_value
 #' This internal function rounds exactly one value to the specified number of digits.
-#'
 #' @param x A character vector where the first element is the integer part and the second element is the decimal part.
 #' @param digits The number of digits to round to.
 #' @return A character string representing the rounded value.
-#' @export round.exactly.one.value
+#' @export round_exactly_one_value
 #' @export
 
-round.exactly.one.value <- function(x, digits){
+round_exactly_one_value <- function(x, digits){
 
   if(digits == 0){
     return(x[1])
@@ -1304,7 +1302,7 @@ round.exactly.one.value <- function(x, digits){
   return(this.result)
 }
 
-#' round.exactly
+#' round_exactly
 #'
 #' This function rounds numeric values to a specified number of decimal places. The rounding is exact, meaning there will be exactly the specified number of decimal places even if this includes trailing zeros.
 #'
@@ -1313,12 +1311,12 @@ round.exactly.one.value <- function(x, digits){
 #' @param decimal The character specifying the decimal, which splits between whole numbers and the fractional component. Defaults to ".".
 #' @param ... Additional arguments .
 #' @return A character vector of rounded numeric values with exactly the specified number of decimal places.
-#' @export round.exactly
+#' @export round_exactly
 #' @export
 
 
 
-round.exactly <- function(x, digits = 0, decimal = ".", ...){
+round_exactly <- function(x, digits = 0, decimal = ".", ...){
 
   x.is.numeric <- is.numeric(x)
   digits <- floor(digits)
@@ -1327,7 +1325,7 @@ round.exactly <- function(x, digits = 0, decimal = ".", ...){
 
     the.pieces <- strsplit(x = as.character(x), split = decimal, fixed = TRUE)
 
-    rounded.values <- unlist(sapply(X = the.pieces, FUN = "round.exactly.one.value", digits = digits))
+    rounded.values <- unlist(sapply(X = the.pieces, FUN = "round_exactly_one_value", digits = digits))
 
     return(rounded.values)
   }

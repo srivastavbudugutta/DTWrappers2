@@ -245,13 +245,13 @@ dt.format.numerics(dt.name = "grouped.means", the.variables = c("Sepal.Length", 
 ```
 
 
-### Methods:  round.exactly and dt.round.exactly
+### Methods:  round_exactly and dt.round.exactly
 
-Traditional rounding provides results up to a specified number of digits.  Rounding 3.96 to 3 decimal places would only result in 2 digits displayed.  The round.exactly function creates character outputs that add lagging zeros.  This ensures that every entry of a variable has the same number of decimal places.  The result is returned as a character vector.
+Traditional rounding provides results up to a specified number of digits.  Rounding 3.96 to 3 decimal places would only result in 2 digits displayed.  The round_exactly function creates character outputs that add lagging zeros.  This ensures that every entry of a variable has the same number of decimal places.  The result is returned as a character vector.
 
 ```{r }
-round.exactly(x = iris$Sepal.Length[1:5], digits = 3)
-round.exactly(x = iris$Sepal.Length[1:5], digits = 5)
+round_exactly(x = iris$Sepal.Length[1:5], digits = 3)
+round_exactly(x = iris$Sepal.Length[1:5], digits = 5)
 
 dt.round.exactly(dt.name = "grouped.means", the.variables = c("Sepal.Length", "Sepal.Width"), digits = 3)
 ```

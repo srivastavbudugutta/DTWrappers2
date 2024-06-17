@@ -107,8 +107,8 @@ grouped.means <- dt.mean.numerics(dt.name = "iris", grouping.variables = "Specie
 dt.format.numerics(dt.name = "grouped.means", the.variables = c("Sepal.Length", "SL.1000"), digits = 2, big.mark = ",", grouping.variables = "Species")
 
 ## -----------------------------------------------------------------------------
-round.exactly(x = iris$Sepal.Length[1:5], digits = 3)
-round.exactly(x = iris$Sepal.Length[1:5], digits = 5)
+round_exactly(x = iris$Sepal.Length[1:5], digits = 3)
+round_exactly(x = iris$Sepal.Length[1:5], digits = 5)
 
 dt.round.exactly(dt.name = "grouped.means", the.variables = c("Sepal.Length", "Sepal.Width"), digits = 3)
 

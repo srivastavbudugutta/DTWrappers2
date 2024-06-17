@@ -435,11 +435,11 @@ dt.format.numerics(dt.name = &quot;grouped.means&quot;, the.variables = c(&quot;
 #&gt; 2: versicolor         5.94 5,939.34
 #&gt; 3:  virginica         6.59 6,591.39
 </code></pre>
-<h3 id="methods-round-exactly-and-dt-round-exactly">Methods:  round.exactly and dt.round.exactly</h3>
-<p>Traditional rounding provides results up to a specified number of digits.  Rounding 3.96 to 3 decimal places would only result in 2 digits displayed.  The round.exactly function creates character outputs that add lagging zeros.  This ensures that every entry of a variable has the same number of decimal places.  The result is returned as a character vector.</p>
-<pre><code class="language-r">round.exactly(x = iris$Sepal.Length[1:5], digits = 3)
+<h3 id="methods-round-exactly-and-dt-round-exactly">Methods:  round_exactly and dt.round.exactly</h3>
+<p>Traditional rounding provides results up to a specified number of digits.  Rounding 3.96 to 3 decimal places would only result in 2 digits displayed.  The round_exactly function creates character outputs that add lagging zeros.  This ensures that every entry of a variable has the same number of decimal places.  The result is returned as a character vector.</p>
+<pre><code class="language-r">round_exactly(x = iris$Sepal.Length[1:5], digits = 3)
 #&gt; [1] &quot;5.100&quot; &quot;4.900&quot; &quot;4.700&quot; &quot;4.600&quot; &quot;5.000&quot;
-round.exactly(x = iris$Sepal.Length[1:5], digits = 5)
+round_exactly(x = iris$Sepal.Length[1:5], digits = 5)
 #&gt; [1] &quot;5.10000&quot; &quot;4.90000&quot; &quot;4.70000&quot; &quot;4.60000&quot; &quot;5.00000&quot;
 
 dt.round.exactly(dt.name = &quot;grouped.means&quot;, the.variables = c(&quot;Sepal.Length&quot;, &quot;Sepal.Width&quot;),
