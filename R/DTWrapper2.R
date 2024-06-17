@@ -1280,6 +1280,8 @@ remove.erroneous.characters <- function(x, threshold.for.numeric = 0.8, variable
 #' @param x A character vector where the first element is the integer part and the second element is the decimal part.
 #' @param digits The number of digits to round to.
 #' @return A character string representing the rounded value.
+#' @export round.exactly.one.value
+#' @export
 
 round.exactly.one.value <- function(x, digits){
 
